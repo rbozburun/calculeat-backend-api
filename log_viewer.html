@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Log Viewer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      td.info {
+      background-color: blue;
+    }
+
+    td.debug {
+      background-color: green;
+    }
+
+    td.error {
+      background-color: red;
+    }
+
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #333;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+      }
+      th, td {
+        border: 1px solid #00461d;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #00793a;
+        color: #ffffff;
+      }
+      td.message {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      td.message.full {
+        max-width: none;
+        overflow: auto;
+        white-space: normal;
+      }
+      @media (max-width: 600px) {
+        table {
+          font-size: 12px;
+        }
+        th, td {
+          padding: 6px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+<body>
+  <h1>API Log Viewer</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Level</th>
+        <th>Message</th>
+        <th>Function</th>
+        <th>File</th>
+      </tr>
+    </thead>
+    <tbody id="logTableBody"></tbody>
+  </table>
+  <script>
+    let previousLogContent = '';
+
+    function fetchLogData() {
+      const logTableBody = document.getElementById('logTableBody');
+      fetch('api.log')
+        .then(response => response.text())
+        .then(logText => {
+          if (logText !== previousLogContent && logText.length != previousLogContent.length) {
+            // Clear existing table rows
+            const logEntries = logText.trim().split(/\.go:\d+"/);
+
+            // The table will be updated, therefore clear the content.
+            if (logText.length != previousLogContent.length){
+              logTableBody.innerHTML = '';
+            }
+            logEntries.forEach(entryText => {
+              const logEntry = parseLogEntry(entryText);
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${logEntry.Time}</td>
+                <td style="color:white" class="${logEntry.Level.toLowerCase()}" >${logEntry.Level}</td>
+                <td class="message" onclick="toggleMessageOverflow(this)">${logEntry.Message}</td>
+                <td>${logEntry.Function}</td>
+                <td>${logEntry.File}</td>
+              `;
+              logTableBody.insertBefore(row, logTableBody.firstChild);
+            });
+
+            previousLogContent = logText;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching log data:', error);
+        });
+    }
+
+    function toggleMessageOverflow(cell) {
+    cell.classList.toggle('full');
+  }
+
+    function parseLogEntry(entryText) {
+      const logEntry = {
+        Time: "",
+        Level: "",
+        Message: "",
+        Function: "",
+        File: "",
+
+      };
+
+      const startIndex = entryText.indexOf('time=') + 'time="'.length;
+      const endIndex = entryText.indexOf('" level=');
+      const timeValue = entryText.slice(startIndex, endIndex);
+      logEntry.Time = timeValue;
+
+      const startIndexLevel = entryText.indexOf('level=') + 'level='.length;
+      const endIndexLevel = entryText.indexOf(' msg=');
+      const levelValue = entryText.slice(startIndexLevel, endIndexLevel);
+      logEntry.Level = levelValue;
+
+      const startIndexMsg = entryText.indexOf('msg=') + 'msg='.length;
+      const endIndexMsg = entryText.indexOf(' func=');
+      const MsgValue = entryText.slice(startIndexMsg, endIndexMsg);
+      logEntry.Message = MsgValue;
+
+      const startIndexFunc= entryText.indexOf('func=') + 'func='.length;
+      const endIndexFunc = entryText.indexOf(' file=');
+      const FuncValue = entryText.slice(startIndexFunc, endIndexFunc);
+      logEntry.Function = FuncValue;
+
+      const startIndexFile= entryText.indexOf('file=') + 'file='.length;
+      const endIndexFile = entryText.indexOf('/$/');
+      const FileValue = entryText.slice(startIndexFile, );
+      logEntry.File = FileValue;
+
+      
+
+      return logEntry;
+    }
+
+    // Fetch log data initially and then every seconds
+    fetchLogData();
+    setInterval(fetchLogData, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "e1976d79-78a9-4602-8104-dc70f48b8206",
+		"name": "Firebase Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21881230",
+		"_collection_link": "https://planetary-escape-385681.postman.co/workspace/CalculEat~80bdea80-c249-47f2-bfd4-51cafd2db39a/collection/21881230-e1976d79-78a9-4602-8104-dc70f48b8206?action=share&source=collection_link&creator=21881230"
+	},
+	"item": [
+		{
+			"name": "Get JWT Token for Firebase User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"resul123@gmail.com\",\r\n    \"password\": \"resul123\",\r\n    \"returnSecureToken\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDmXoj5G5Xiwkkm8rUfr62N0CbR0t_N2GU",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"identitytoolkit",
+						"v3",
+						"relyingparty",
+						"verifyPassword"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyDmXoj5G5Xiwkkm8rUfr62N0CbR0t_N2GU"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

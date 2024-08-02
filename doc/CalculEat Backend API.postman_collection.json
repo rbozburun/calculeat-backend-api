@@ -1,0 +1,995 @@
+{
+	"info": {
+		"_postman_id": "84727e75-786c-4872-a2fa-56a8dadefebe",
+		"name": "CalculEat Backend API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21881230",
+		"_collection_link": "https://planetary-escape-385681.postman.co/workspace/CalculEat~80bdea80-c249-47f2-bfd4-51cafd2db39a/collection/21881230-84727e75-786c-4872-a2fa-56a8dadefebe?action=share&source=collection_link&creator=21881230"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "ListUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{id_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/user",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{id_token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role_id\": 1,\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"password\": \"test123\",\n  \"profile_img_filepath\": \"/images/profile_images/3/\",\n  \"gender\": \"M\",\n  \"born\": \"2000-06-23\",\n  \"age\": 21,\n  \"email\": \"resul123@gmail.com\",\n  \"height\": 182,\n  \"weight\": 75,\n  \"goal\": \"Lose weight\",\n  \"diseases\": [\"str1\", \"str2\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/user",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Moe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/user/1",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/user/7",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"user",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Connection",
+			"item": [
+				{
+					"name": "CreateConnection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dietician_user_id\": 1,\n  \"client_user_id\": 2,\n  \"is_accepted\": \"f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/connection",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"connection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListConnections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/connection",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"connection"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteConnection",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/connection/2",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"connection",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateConnection",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_accepted\": \"t\",\n     \"dietician_user_id\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/connection/1",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"connection",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Food",
+			"item": [
+				{
+					"name": "ListFoods",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/food",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"food"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateFood",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 4,\n  \"name\": \"meat\",\n  \"meal\": \"breakfast\",\n  \"imgleft_filepath\": \"/images/food_images/1/left/\",\n  \"imgright_filepath\": \"/images/food_images/1/right/\",\n  \"imgtop_filepath\": \"/images/food_images/2/top/\",\n  \"calorie\": 163,\n  \"carbonhydrate\": 1.1,\n  \"protein\": 1.1,\n  \"sugar\": 223.2,\n  \"fat\": 2.2,\n  \"saturated_fat\": 1.1,\n  \"unsaturated_fat\": 1.1,\n  \"vit_c\": 2,\n  \"vit_d\": 4,\n  \"vit_a\": 5,\n  \"calcium\": 1.1,\n  \"magnesium\": 1.1,\n  \"sodium\": 1.1,\n  \"iron\": 1.1,\n  \"gram\": 263.1,\n  \"creation_time\": \"2017-07-21T17:32:28.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/food",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"food"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateFood",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"chicken\",\n    \"user_id\": 3,\n    \"imgleft_filepath\": \"/images/food_images/1/left/\",\n    \"imgright_filepath\": \"/images/food_images/1/right/\",\n    \"imgtop_filepath\": \"/images/food_images/2/top/\",\n    \"calorie\": 255,\n    \"protein\": 23,\n    \"carbonhydrate\": 1.1,\n    \"fat\": 2.2,\n    \"creation_time\": \"2017-07-21T20:32:28+03:00\",\n    \"magnesium\": 3,\n    \"calcium\": 1.1,\n    \"sodium\": 2,\n    \"iron\": 1.1,\n    \"vit_a\": 5,\n    \"vit_c\": 2,\n    \"vit_d\": 4,\n    \"sugar\": 223.2,\n    \"saturated_fat\": 1.1,\n    \"unsaturated_fat\": 1.1,\n    \"gram\": 263.1,\n    \"meal\": \"breakfast\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/food/7",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"food",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFood",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "1d08a3af-a754-47fd-8d85-e4c05d768182"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/food/4",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"food",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Meeting",
+			"item": [
+				{
+					"name": "CreateMeeting",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dietician_user_id\": 2,\n  \"client_user_id\": 3,\n  \"creation_time\": \"2017-07-21T17:32:28.000Z\",\n  \"meet_link\": \"{{scheme}}s://meet.calculeat.com/asda-qwe1as-21\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/meeting",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"meeting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListMeetings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/meeting",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"meeting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMeeting",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/meeting/8",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"meeting",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMeeting",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dietician_user_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/meeting/4",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"meeting",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Water",
+			"item": [
+				{
+					"name": "CreateWaterObj",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 1,\n  \"count\": 15,\n  \"creation_time\": \"2023-04-05T17:32:28.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/water",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"water"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListWaterObj",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/water?date=2023-04-05",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"water"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2023-04-05"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteWaterObj",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/water/15",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"water",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateWaterObj",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": 3,\n  \"count\": 12,\n  \"creation_time\": \"2017-07-21T17:32:28.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/water/16",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"water",
+								"16"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "CreateMessage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender_id\": 10,\n  \"reciever_id\": 11,\n  \"creation_time\": \"2017-07-21T17:32:28.000Z\",\n  \"message_text\": \"Hello, I'm a client!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/message",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListMessages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/message",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMessage",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/message/2",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"message",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMessage",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "e0d16d8a-a9e7-414c-b10c-edab5b23933d"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message_text\": \"Updated\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/message/1",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sleep",
+			"item": [
+				{
+					"name": "CreateSleep",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"user_id\": 1,\n  \"start_time\": \"2017-07-21T17:32:28.000Z\",\n  \"end_time\": \"2017-07-21T17:32:28.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/sleep",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"sleep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListSleepObj",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/sleep",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"sleep"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSleep",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/sleep/15",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"sleep",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSleepObj",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "585a5d41-e533-4848-acc7-c79ef2901483"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n    \"user_id\": 2,\n    \"start_time\": \"2017-07-21T20:32:28+03:00\",\n    \"end_time\": \"2017-07-21T20:32:28+03:00\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/sleep/2",
+							"protocol": "{{scheme}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"port": "7854",
+							"path": [
+								"api",
+								"1.0",
+								"sleep",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"resul123@gmail.com\",\n  \"password\": \"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/login",
+					"protocol": "{{scheme}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "7854",
+					"path": [
+						"api",
+						"1.0",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{id_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/resul/OneDrive/Desktop/pilav.webp"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{scheme}}://{{hostname}}:7854/api/1.0/predict",
+					"protocol": "{{scheme}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "7854",
+					"path": [
+						"api",
+						"1.0",
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

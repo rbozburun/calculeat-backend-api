@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  postgres_db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+     # copy the sql script to create tables
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+     # fill created tables
+     #- ./sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      TZ: Europe/Istanbul #This added newly, but didn't tested. 
+
+#  app:
+#    container_name: api
+#    build: .
+#    ports:
+#      - 7854:7854
+#    restart: on-failure
+#    depends_on:
+#      - postgres_db
+#    links:
+#      - postgres_db
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    restart: always
+    container_name: swagger_ui
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./doc/openapi.json:/openapi.json
+    environment:
+      SWAGGER_JSON: /openapi.json
+
+
+

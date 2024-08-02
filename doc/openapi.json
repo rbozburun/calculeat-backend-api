@@ -1,0 +1,3176 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "CalculEat API Documentation - OpenAPI 3.0",
+    "description": "Sample description.",
+    "version": "1.0.10"
+  },
+  "servers": [
+    {
+      "url": "http://hostname:7854/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "predict",
+      "description": "AI prediction operations"
+    },
+    {
+      "name": "food",
+      "description": "Available meals: Breakfast, Burch, Lunch, Dinner, Supper"
+    }
+  ],
+  "paths": {
+    "/api/1.0/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Retrieves the user's JWT token if credentials are correct.",
+        "description": "Retrieves the user's API token if credentials are correct.",
+        "operationId": "login",
+        "requestBody": {
+          "description": "Retrieves the user's API token if credentials are correct.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Invalid credentials"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/1.0/predict": {
+      "post": {
+        "tags": [
+          "predict"
+        ],
+        "summary": "AI prediction endpoint",
+        "description": "Calculate macros of given food image",
+        "operationId": "predict",
+        "requestBody": {
+          "description": "Calculate macros of given food image",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictResponseOK"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictResponseBadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Authentication failed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "err": {
+                      "type": "string",
+                      "example": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/1.0/user": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "List all of the users in DB.",
+        "description": "Fetch all of the users from DB.",
+        "operationId": "listUsers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The id of user that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "query",
+            "description": "The role_id (user type) that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "first_name",
+            "in": "query",
+            "description": "The firstname that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Yusuf"
+            }
+          },
+          {
+            "name": "last_name",
+            "in": "query",
+            "description": "The lastname that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Kemal"
+            }
+          },
+          {
+            "name": "age",
+            "in": "query",
+            "description": "The age that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 23
+            }
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "The gender that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2000-06-23"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListUserResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "read:users",
+              "write:users"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new user to the database",
+        "description": "Add a new user to the database. All of the fields are not needed to create user.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Create a new user in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes the user from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified user according to the JWT token provided in Authorization header.",
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "User successfuly deleted."
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/food": {
+      "get": {
+        "tags": [
+          "food"
+        ],
+        "summary": "List all of the food objects in DB.",
+        "description": "Fetch all of the foods from DB.",
+        "operationId": "listFoodObjs",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Meat"
+            }
+          },
+          {
+            "name": "meal",
+            "in": "query",
+            "description": "The meal of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "breakfast"
+            }
+          },
+          {
+            "name": "calorie",
+            "in": "query",
+            "description": "The calorie of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 263
+            }
+          },
+          {
+            "name": "carbonhydrate",
+            "in": "query",
+            "description": "The carbonhydrate ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 24
+            }
+          },
+          {
+            "name": "protein",
+            "in": "query",
+            "description": "The protein ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 28
+            }
+          },
+          {
+            "name": "fat",
+            "in": "query",
+            "description": "The fat ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 17
+            }
+          },
+          {
+            "name": "gram",
+            "in": "query",
+            "description": "The mass of of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 176.3
+            }
+          },
+          {
+            "name": "sugar",
+            "in": "query",
+            "description": "The sugar ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 176.3
+            }
+          },
+          {
+            "name": "vit_c",
+            "in": "query",
+            "description": "The vit_c ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 11
+            }
+          },
+          {
+            "name": "vit_d",
+            "in": "query",
+            "description": "The vit_d ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 8
+            }
+          },
+          {
+            "name": "vit_a",
+            "in": "query",
+            "description": "The vit_a ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 3
+            }
+          },
+          {
+            "name": "calcium",
+            "in": "query",
+            "description": "The calcium ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 14
+            }
+          },
+          {
+            "name": "magnesium",
+            "in": "query",
+            "description": "The magnesium ratio of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "example": 10
+            }
+          },
+          {
+            "name": "creation_time",
+            "in": "query",
+            "description": "The creation datetime of foods that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21T17:32:28.000Z"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoodResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:foods",
+              "read:foods"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Add a new FoodObj to the database",
+        "description": "Add a new food to the database. All of the fields are not needed to create food.",
+        "operationId": "createFoodObj",
+        "requestBody": {
+          "description": "Create a new foodObj in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:foods",
+              "read:foods"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/food/{food_id}": {
+      "delete": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Deletes the foodObj from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified foodObj according to the ID.",
+        "operationId": "deleteFoodObj",
+        "parameters": [
+          {
+            "name": "food_id",
+            "in": "path",
+            "description": "The food_id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FoodObj successfuly deleted."
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "FoodObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:foods",
+              "read:foods"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Update foodObj",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateFoodObj",
+        "requestBody": {
+          "description": "Update the given food object.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "food_id",
+            "in": "path",
+            "description": "The food_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "FoodObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:foods",
+              "read:foods"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/connection": {
+      "get": {
+        "tags": [
+          "connection"
+        ],
+        "summary": "List all of the connections in DB.",
+        "description": "Fetch all of the connections from DB.",
+        "operationId": "listConnections",
+        "parameters": [
+          {
+            "name": "is_accepted",
+            "in": "query",
+            "description": "The id of dietician that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConnectionResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:connections",
+              "read:connections"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "connection"
+        ],
+        "summary": "Add a new connection to the database",
+        "description": "Add a new connection to the database. All of the fields are not needed to create connection.",
+        "operationId": "createConnection",
+        "requestBody": {
+          "description": "Create a new connection in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionPOSTRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:connections",
+              "read:connections"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/connection/{connection_id}": {
+      "delete": {
+        "tags": [
+          "connection"
+        ],
+        "summary": "Deletes the connection from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified connection according to the ID.",
+        "operationId": "deleteConnection",
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "description": "The connection_id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connection successfuly deleted."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Connection not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:connections",
+              "read:connections"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "connection"
+        ],
+        "summary": "Update connection",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateConnection",
+        "requestBody": {
+          "description": "Update the given connection.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionPATCHRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "description": "The connection_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "Connection not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:connections",
+              "read:connections"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/meeting": {
+      "get": {
+        "tags": [
+          "meeting"
+        ],
+        "summary": "List all of the meetings in DB.",
+        "description": "Fetch all of the meetings from DB.",
+        "parameters": [
+          {
+            "name": "dietician_user_id",
+            "in": "query",
+            "description": "The id of dietician that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 36
+            }
+          },
+          {
+            "name": "client_user_id",
+            "in": "query",
+            "description": "The id of dietician that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 48
+            }
+          },
+          {
+            "name": "creation_time",
+            "in": "query",
+            "description": "The creation datetime of meeting that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21T17:32:28.000Z"
+            }
+          },
+          {
+            "name": "meet_link",
+            "in": "query",
+            "description": "The link of meeting that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "https://meet.calculeat.com/asda-qwe1as-21"
+            }
+          }
+        ],
+        "operationId": "listMeetings",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeetingResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "meeting"
+        ],
+        "summary": "Add a new meeting to the database",
+        "description": "Add a new meeting to the database. All of the fields are not needed to create meeting.",
+        "operationId": "createMeeting",
+        "requestBody": {
+          "description": "Create a new meeting in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MeetingRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeetingResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/meeting/{meeting_id}": {
+      "delete": {
+        "tags": [
+          "meeting"
+        ],
+        "summary": "Deletes the meeting from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified meeting according to the ID.",
+        "operationId": "deleteMeeting",
+        "parameters": [
+          {
+            "name": "meeting_id",
+            "in": "path",
+            "description": "The meeting_id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meeting successfuly deleted."
+          },
+          "404": {
+            "description": "Meeting not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "meeting"
+        ],
+        "summary": "Update meeting",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateMeeting",
+        "requestBody": {
+          "description": "Update the meeting.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MeetingRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "meeting_id",
+            "in": "path",
+            "description": "The meeting_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeetingPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "Meeting not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/message": {
+      "get": {
+        "tags": [
+          "message"
+        ],
+        "summary": "List all of the messages in DB.",
+        "description": "Fetch all of the messages from DB.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The id of sender that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 12
+            }
+          },
+          {
+            "name": "reciever_id",
+            "in": "query",
+            "description": "The id of sender that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 256
+            }
+          },
+          {
+            "name": "creation_time",
+            "in": "query",
+            "description": "The creation datetime of message that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21T17:32:28Z"
+            }
+          },
+          {
+            "name": "message_text",
+            "in": "query",
+            "description": "The message text that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Hello world"
+            }
+          }
+        ],
+        "operationId": "listMessages",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:messages",
+              "read:messages"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "message"
+        ],
+        "summary": "Add a new message to the database",
+        "description": "Add a new Message to the database. All of the fields are not needed to create meeting.",
+        "operationId": "createMessage",
+        "requestBody": {
+          "description": "Create a new message in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/message/{message_id}": {
+      "patch": {
+        "tags": [
+          "message"
+        ],
+        "summary": "Update message",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateMessage",
+        "requestBody": {
+          "description": "Update the message object.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "description": "The message_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagePATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "Meeting not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:meetings",
+              "read:meetings"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "message"
+        ],
+        "summary": "Deletes the message from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified message according to the ID.",
+        "operationId": "deleteMessage",
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "description": "The message_id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message successfuly deleted."
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:messages",
+              "read:messages"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/sleep": {
+      "get": {
+        "tags": [
+          "sleep"
+        ],
+        "summary": "List all of the sleep objects in DB.",
+        "description": "Fetch all of the sleep objects from DB.",
+        "operationId": "listSleepObj",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The start time of sleep objects that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 12
+            }
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "description": "The start time of sleep objects that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21T17:32:28.000Z"
+            }
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "description": "The start time of sleep objects that needs to be fetched",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21T23:32:28.000Z"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SleepObjResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "SleepObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:sleepobjs",
+              "read:sleepobjs"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "sleep"
+        ],
+        "summary": "Add a new sleep object to the database",
+        "description": "Add a new sleep object to the database.",
+        "operationId": "createSleepObj",
+        "requestBody": {
+          "description": "Create a new sleep object in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SleepObjRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SleepObjResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:sleepobjs",
+              "read:sleepobjs"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/sleep/{sleepObj_id}": {
+      "patch": {
+        "tags": [
+          "sleep"
+        ],
+        "summary": "Update sleepObj",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateSleepObj",
+        "requestBody": {
+          "description": "Update the sleep object.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SleepObjRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sleepObj_id",
+            "in": "path",
+            "description": "The sleepObj_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SleepObjPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "SleepObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:sleepobjs",
+              "read:sleepobjs"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "sleep"
+        ],
+        "summary": "Deletes the sleep object from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified sleep object according to the ID.",
+        "operationId": "deleteSleepObj",
+        "parameters": [
+          {
+            "name": "sleepObj_id",
+            "in": "path",
+            "description": "The sleep object id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SleepObj successfuly deleted."
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "SleepObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:sleepobjs",
+              "read:sleepobjs"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/water": {
+      "get": {
+        "tags": [
+          "water"
+        ],
+        "summary": "List all of the water objects in DB.",
+        "description": "Fetch all of the water objects from DB.",
+        "operationId": "listWaterObjs",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date that all water objects will be fetched.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-21"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WaterObjResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:sleepobjs",
+              "read:sleepobjs"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Add a new water object to the database",
+        "description": "Add a new water object to the database.",
+        "operationId": "createWaterObj",
+        "requestBody": {
+          "description": "Create a new water object in the DB.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterObjRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterObjResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:waterobjs",
+              "read:waterobjs"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/1.0/water/{waterObj_id}": {
+      "patch": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Update waterObj",
+        "description": "This can only be done by the logged in user. **You can use only fields that you want to update.**",
+        "operationId": "updateWaterObj",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterObjRequestBody"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "waterObj_id",
+            "in": "path",
+            "description": "The waterObj_id that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterObjPATCHResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request"
+          },
+          "404": {
+            "description": "WaterObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:waterobjs",
+              "read:waterobjs"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "water"
+        ],
+        "summary": "Deletes the water object from the database. This can only be done by the logged in user.",
+        "description": "Deletes the specified water object according to the ID.",
+        "operationId": "deleteWaterObj",
+        "parameters": [
+          {
+            "name": "waterObj_id",
+            "in": "path",
+            "description": "The waterObj_id that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "WaterObj successfuly deleted."
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "WaterObj not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "write:waterobjs",
+              "read:waterobjs"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Token": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1zY3dtaEBjYWxjdWxlYXQtZWEzNDcuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImV4cCI6MTY5NTU1OTk5NSwiaWF0IjoxNjk1NTU2Mzk1LCJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1zY3dtaEBjYWxjdWxlYXQtZWEzNDcuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJ1aWQiOiJHeEdtejdqTXJDZW9MMjFoNTFJOFJwR3RIY0kzIn0.AvO03IZBNnz2pPUB-B0byzr3v6G68VXd95hgio3K8LLn9QCB8VMr3ijtQ7KkPb3vqdDghnuIB1NeHSrTv71jmpm3Gg5N30c83HxxulWZNFoQI_BrdEdgtOPHRH6n_jU3rcgbHbafLFAbofmGtjrXheTYqG-2q0mrqivewERMgATlEMz_gzbBczF9zmCr_YH7r8om_33kFUjlaZA9p9qIxvuhKSvKFQ0Bqsq_P5PwF-zrN_ksW0Yju3eGyDp6vMxC-U1KAilLkUVfrEq4M_xEuDEOv8rShSs6SPCP2c6KmTzEdc9gAgyKVkprSyf3qbsoEjjYF0epjrMAwH8aDVCyhg"
+          }
+        }
+      },
+      "LoginResponseBody": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "example": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1zY3dtaEBjYWxjdWxlYXQtZWEzNDcuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImV4cCI6MTY5NTU1OTk5NSwiaWF0IjoxNjk1NTU2Mzk1LCJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1zY3dtaEBjYWxjdWxlYXQtZWEzNDcuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJ1aWQiOiJHeEdtejdqTXJDZW9MMjFoNTFJOFJwR3RIY0kzIn0.AvO03IZBNnz2pPUB-B0byzr3v6G68VXd95hgio3K8LLn9QCB8VMr3ijtQ7KkPb3vqdDghnuIB1NeHSrTv71jmpm3Gg5N30c83HxxulWZNFoQI_BrdEdgtOPHRH6n_jU3rcgbHbafLFAbofmGtjrXheTYqG-2q0mrqivewERMgATlEMz_gzbBczF9zmCr_YH7r8om_33kFUjlaZA9p9qIxvuhKSvKFQ0Bqsq_P5PwF-zrN_ksW0Yju3eGyDp6vMxC-U1KAilLkUVfrEq4M_xEuDEOv8rShSs6SPCP2c6KmTzEdc9gAgyKVkprSyf3qbsoEjjYF0epjrMAwH8aDVCyhg"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "access_token": {
+                "type": "string",
+                "example": ""
+              },
+              "role_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "first_name": {
+                "type": "string",
+                "example": "John"
+              },
+              "last_name": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "password": {
+                "type": "string",
+                "example": ""
+              },
+              "profile_img_filepath": {
+                "type": "string",
+                "example": "/images/profile_images/3/"
+              },
+              "gender": {
+                "type": "string",
+                "example": "M"
+              },
+              "born": {
+                "type": "string",
+                "example": "2000-06-23"
+              },
+              "age": {
+                "type": "integer",
+                "format": "int64",
+                "example": 21
+              },
+              "email": {
+                "type": "string",
+                "example": "john@email.com"
+              },
+              "height": {
+                "type": "integer",
+                "format": "int64",
+                "example": 182
+              },
+              "weight": {
+                "type": "integer",
+                "format": "int64",
+                "example": 75
+              },
+              "goal": {
+                "type": "string",
+                "example": "Lose weight"
+              },
+              "sign_in_provider": {
+                "type": "string",
+                "example": "password"
+              },
+              "diseases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "str1",
+                  "str2"
+                ]
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-08-20T17:03:43.442025+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-08-20T17:03:43.442025+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": ""
+              }
+            }
+          }
+        }
+      },
+      "LoginRequestBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": 123456
+          }
+        }
+      },
+      "LoginFailed": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "invalid password"
+          }
+        }
+      },
+      "UserPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "access_token": {
+                "type": "string",
+                "example": ""
+              },
+              "role_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "first_name": {
+                "type": "string",
+                "example": "John"
+              },
+              "last_name": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "password": {
+                "type": "string",
+                "example": ""
+              },
+              "profile_img_filepath": {
+                "type": "string",
+                "example": "/images/profile_images/3/"
+              },
+              "gender": {
+                "type": "string",
+                "example": "M"
+              },
+              "born": {
+                "type": "string",
+                "example": "2000-06-23"
+              },
+              "age": {
+                "type": "integer",
+                "format": "int64",
+                "example": 21
+              },
+              "email": {
+                "type": "string",
+                "example": "john@email.com"
+              },
+              "height": {
+                "type": "integer",
+                "format": "int64",
+                "example": 182
+              },
+              "weight": {
+                "type": "integer",
+                "format": "int64",
+                "example": 75
+              },
+              "goal": {
+                "type": "string",
+                "example": "Lose weight"
+              },
+              "sign_in_provider": {
+                "type": "string",
+                "example": "password"
+              },
+              "diseases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "str1",
+                  "str2"
+                ]
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-08-20T17:03:43.442025+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-08-20T17:03:43.442025+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": ""
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "ListUserResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "access_token": {
+            "type": "string",
+            "example": ""
+          },
+          "role_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "init_water_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": ""
+          },
+          "profile_img_filepath": {
+            "type": "string",
+            "example": ""
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "born": {
+            "type": "string",
+            "example": ""
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "email": {
+            "type": "string",
+            "example": ""
+          },
+          "height": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "goal": {
+            "type": "string",
+            "example": ""
+          },
+          "sign_in_provider": {
+            "type": "string",
+            "example": ""
+          },
+          "diseases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              null
+            ]
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "0000-00-00T00:00:00.000000+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "0000-00-00T00:00:00.000000+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": ""
+          }
+        }
+      },
+      "UserResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "access_token": {
+            "type": "string",
+            "example": ""
+          },
+          "role_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "init_water_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": ""
+          },
+          "profile_img_filepath": {
+            "type": "string",
+            "example": "/images/profile_images/3/"
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "born": {
+            "type": "string",
+            "example": "2000-06-23"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int64",
+            "example": 182
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int64",
+            "example": 75
+          },
+          "goal": {
+            "type": "string",
+            "example": "Lose weight"
+          },
+          "sign_in_provider": {
+            "type": "string",
+            "example": "password"
+          },
+          "diseases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "str1",
+              "str2"
+            ]
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-08-20T17:03:43.442025+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-08-20T17:03:43.442025+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": ""
+          }
+        }
+      },
+      "UserPATCHRequestBody": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": "SuperSecr3t"
+          },
+          "profile_img_filepath": {
+            "type": "string",
+            "example": "/images/profile_images/3/"
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "born": {
+            "type": "string",
+            "example": "2000-06-23"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int64",
+            "example": 182
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int64",
+            "example": 75
+          },
+          "goal": {
+            "type": "string",
+            "example": "Lose weight"
+          },
+          "diseases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "str1",
+              "str2"
+            ]
+          }
+        }
+      },
+      "UserRequestBody": {
+        "type": "object",
+        "properties": {
+          "role_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "password": {
+            "type": "string",
+            "example": "SuperSecr3t"
+          },
+          "profile_img_filepath": {
+            "type": "string",
+            "example": "/images/profile_images/3/"
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "born": {
+            "type": "string",
+            "example": "2000-06-23"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int64",
+            "example": 182
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int64",
+            "example": 75
+          },
+          "goal": {
+            "type": "string",
+            "example": "Lose weight"
+          },
+          "diseases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "str1",
+              "str2"
+            ]
+          }
+        }
+      },
+      "FoodPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 3
+              },
+              "name": {
+                "type": "string",
+                "example": "meat"
+              },
+              "meal": {
+                "type": "string",
+                "example": "breakfast"
+              },
+              "imgleft_filepath": {
+                "type": "string",
+                "example": "/images/food_images/1/left/"
+              },
+              "imgright_filepath": {
+                "type": "string",
+                "example": "/images/food_images/1/right/"
+              },
+              "imgtop_filepath": {
+                "type": "string",
+                "example": "/images/food_images/2/top/"
+              },
+              "calorie": {
+                "type": "integer",
+                "format": "int64",
+                "example": 163
+              },
+              "carbonhydrate": {
+                "type": "number",
+                "format": "float",
+                "example": 1.1
+              },
+              "protein": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "sugar": {
+                "format": "float",
+                "type": "number",
+                "example": 223.2
+              },
+              "fat": {
+                "format": "float",
+                "type": "number",
+                "example": 2.2
+              },
+              "saturated_fat": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "unsaturated_fat": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "vit_c": {
+                "type": "integer",
+                "format": "int64",
+                "example": 2
+              },
+              "vit_d": {
+                "type": "integer",
+                "format": "int64",
+                "example": 4
+              },
+              "vit_a": {
+                "type": "integer",
+                "format": "int64",
+                "example": 5
+              },
+              "calcium": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "magnesium": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "sodium": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "iron": {
+                "format": "float",
+                "type": "number",
+                "example": 1.1
+              },
+              "gram": {
+                "format": "float",
+                "type": "number",
+                "example": 263.1
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "FoodResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3
+          },
+          "name": {
+            "type": "string",
+            "example": "meat"
+          },
+          "meal": {
+            "type": "string",
+            "example": "breakfast"
+          },
+          "imgleft_filepath": {
+            "type": "string",
+            "example": "/images/food_images/1/left/"
+          },
+          "imgright_filepath": {
+            "type": "string",
+            "example": "/images/food_images/1/right/"
+          },
+          "imgtop_filepath": {
+            "type": "string",
+            "example": "/images/food_images/2/top/"
+          },
+          "calorie": {
+            "type": "integer",
+            "format": "int64",
+            "example": 163
+          },
+          "carbonhydrate": {
+            "type": "number",
+            "format": "float",
+            "example": 1.1
+          },
+          "protein": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "sugar": {
+            "format": "float",
+            "type": "number",
+            "example": 223.2
+          },
+          "fat": {
+            "format": "float",
+            "type": "number",
+            "example": 2.2
+          },
+          "saturated_fat": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "unsaturated_fat": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "vit_c": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "vit_d": {
+            "type": "integer",
+            "format": "int64",
+            "example": 4
+          },
+          "vit_a": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          },
+          "calcium": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "magnesium": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "sodium": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "iron": {
+            "format": "float",
+            "type": "number",
+            "example": 1.1
+          },
+          "gram": {
+            "format": "float",
+            "type": "number",
+            "example": 263.1
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "FoodRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "meat"
+          },
+          "meal": {
+            "type": "string",
+            "example": "breakfast"
+          },
+          "imgleft_filepath": {
+            "type": "string",
+            "example": "/images/food_images/1/left/"
+          },
+          "imgright_filepath": {
+            "type": "string",
+            "example": "/images/food_images/1/right/"
+          },
+          "imgtop_filepath": {
+            "type": "string",
+            "example": "/images/food_images/2/top/"
+          },
+          "calorie": {
+            "type": "integer",
+            "format": "int64",
+            "example": 163
+          },
+          "carbonhydrate": {
+            "type": "number",
+            "example": 1.1
+          },
+          "protein": {
+            "type": "number",
+            "example": 1.1
+          },
+          "sugar": {
+            "type": "number",
+            "example": 223.2
+          },
+          "fat": {
+            "type": "number",
+            "example": 2.2
+          },
+          "saturated_fat": {
+            "type": "number",
+            "example": 1.1
+          },
+          "unsaturated_fat": {
+            "type": "number",
+            "example": 1.1
+          },
+          "vit_c": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "vit_d": {
+            "type": "integer",
+            "format": "int64",
+            "example": 4
+          },
+          "vit_a": {
+            "type": "integer",
+            "format": "int64",
+            "example": 5
+          },
+          "calcium": {
+            "type": "number",
+            "example": 1.1
+          },
+          "magnesium": {
+            "type": "number",
+            "example": 1.1
+          },
+          "sodium": {
+            "type": "number",
+            "example": 1.1
+          },
+          "iron": {
+            "type": "number",
+            "example": 1.1
+          },
+          "gram": {
+            "type": "number",
+            "example": 263.1
+          }
+        }
+      },
+      "ConnectionPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "dietician_user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 21
+              },
+              "client_user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 10
+              },
+              "is_accepted": {
+                "type": "string",
+                "example": "t"
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "ConnectionPOSTRequestBody": {
+        "type": "object",
+        "properties": {
+          "target_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          }
+        }
+      },
+      "ConnectionPATCHRequestBody": {
+        "type": "object",
+        "properties": {
+          "target_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "is_accepted": {
+            "type": "string",
+            "format": "char",
+            "example": "f"
+          }
+        }
+      },
+      "ConnectionResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "dietician_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "client_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "is_accepted": {
+            "type": "string",
+            "example": "t"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "MeetingPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "dietician_user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 21
+              },
+              "client_user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 10
+              },
+              "meet_link": {
+                "type": "string",
+                "example": "https://meet.calculeat.com/asda-qwe1as-21"
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "MeetingRequestBody": {
+        "type": "object",
+        "properties": {
+          "target_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "meet_link": {
+            "type": "string",
+            "example": "https://meet.calculeat.com/asda-qwe1as-21"
+          }
+        }
+      },
+      "MeetingResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "dietician_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 21
+          },
+          "client_user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "meet_link": {
+            "type": "string",
+            "example": "https://meet.calculeat.com/asda-qwe1as-21"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "MessagePATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "sender_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 11
+              },
+              "reciever_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 11
+              },
+              "message_text": {
+                "type": "string",
+                "example": "Hello, I'm a client!"
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "MessageRequestBody": {
+        "type": "object",
+        "properties": {
+          "reciever_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 11
+          },
+          "message_text": {
+            "type": "string",
+            "example": "Hello, I'm a client!"
+          }
+        }
+      },
+      "MessageResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "sender_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 11
+          },
+          "reciever_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 11
+          },
+          "message_text": {
+            "type": "string",
+            "example": "Hello, I'm a client!"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "SleepObjPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "start_time": {
+                "type": "string",
+                "example": "2017-07-21T17:32:28.000Z"
+              },
+              "end_time": {
+                "type": "string",
+                "example": "2017-07-21T17:32:28.000Z"
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "SleepObjRequestBody": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "example": "2017-07-21T17:32:28.000Z"
+          },
+          "end_time": {
+            "type": "string",
+            "example": "2017-07-21T17:32:28.000Z"
+          }
+        }
+      },
+      "SleepObjResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "start_time": {
+            "type": "string",
+            "example": "2017-07-21T17:32:28.000Z"
+          },
+          "end_time": {
+            "type": "string",
+            "example": "2017-07-21T17:32:28.000Z"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "WaterObjPATCHResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1
+              },
+              "count": {
+                "type": "integer",
+                "format": "int64",
+                "example": 12
+              },
+              "CreatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "UpdatedAt": {
+                "type": "string",
+                "example": "2023-09-10T18:25:55.6236225+03:00"
+              },
+              "deleted_on": {
+                "type": "string",
+                "example": "0001-01-01T00:00:00Z"
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successful operation, object has been updated."
+          }
+        }
+      },
+      "WaterObjRequestBody": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          }
+        }
+      },
+      "WaterObjResponseBody": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 12
+          },
+          "CreatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "example": "2023-09-10T18:25:55.6236225+03:00"
+          },
+          "deleted_on": {
+            "type": "string",
+            "example": "0001-01-01T00:00:00Z"
+          }
+        }
+      },
+      "PredictResponseOK": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "calories": {
+                "type": "number",
+                "example": 210.43324491600353
+              },
+              "protein": {
+                "type": "number",
+                "example": 4.370536625178535
+              },
+              "fat": {
+                "type": "number",
+                "example": 0.8093586342923212
+              },
+              "carbs": {
+                "type": "number",
+                "example": 45.32408352036999
+              }
+            }
+          },
+          "msg": {
+            "type": "string",
+            "example": "Successfully calculeated"
+          }
+        }
+      },
+      "PredictResponseBadRequest": {
+        "type": "object",
+        "properties": {
+          "err": {
+            "type": "string",
+            "example": "Invalid Request Format, couldnt bind predict object's json"
+          }
+        }
+      },
+      "PredictRequestBody": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "object",
+            "format": "form-data",
+            "example": "image.png"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
+}
